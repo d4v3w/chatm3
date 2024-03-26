@@ -6,12 +6,15 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+const messages = ["Heelo", "Hi there!"];
+
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
+  ping: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
+      const date = new Date().toLocaleTimeString();
       return {
-        greeting: `Hello ${input.text}`,
+        greeting: `Ping: ${input.text}. Server-side connection OK at: ${date}`,
       };
     }),
 
@@ -36,7 +39,17 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
+  getLiveChatMessages: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.post.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  }),
+
   getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+    return "welcome to chatm3";
+  }),
+
+  getChatMessages: protectedProcedure.query(() => {
+    return messages;
   }),
 });
