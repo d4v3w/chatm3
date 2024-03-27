@@ -19,8 +19,8 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Lint
-        run: npm run lint
+      #- name: Lint (See eslint.yml)
+      #run: npm run lint
 
       - name: Print Environment Variable
         run: echo $MY_ENV_VAR
